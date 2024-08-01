@@ -127,7 +127,24 @@ namespace EldenRingDeathCounter
                 // Canny edge detection
                 using var destImage = Mat.Zeros(img.Rows, img.Cols, img.Depth, img.NumberOfChannels);
                 CvInvoke.Canny(img, destImage, 50, 50);
-                //img.Save("test_processed_pre_edge.jpg");
+
+                // Commented out contour drawing but don't want to get rid of it
+
+                //CvInvoke.GaussianBlur(destImage, destImage, Size.Empty, 0.5, 0);
+                //var contours = new VectorOfVectorOfPoint();
+                //var heirarchy = new Mat();
+                //CvInvoke.FindContours(destImage, contours, heirarchy, RetrType.List, ChainApproxMethod.ChainApproxSimple);
+                //for (var j = 0; j < contours.Size; j++)
+                //{
+                //    if (CvInvoke.ContourArea(contours[j]) > 50)
+                //    {
+                //        CvInvoke.DrawContours(destImage, contours, j, new MCvScalar(255, 255, 255), -1);
+                //    }
+                //}
+
+                // Invert colors because the text detection works best with black text on white background
+                CvInvoke.BitwiseNot(destImage, destImage);
+
                 destImage.Save($"processed{i}.jpg");
                 processedImagePaths[i] = $"processed{i}.jpg";
                 img.Dispose();
@@ -155,7 +172,7 @@ namespace EldenRingDeathCounter
                 captureRectangle.Height = Convert.ToInt32(Screen.AllScreens[i].Bounds.Height * screenshotHeightPercentage);
                 using var captureGraphics = Graphics.FromImage(captureBitmap);
                 captureGraphics.CopyFromScreen(captureRectangle.Left + Convert.ToInt32(Screen.AllScreens[i].Bounds.Width * youDiedWidthFromScreenWidth), captureRectangle.Top + Convert.ToInt32(Screen.AllScreens[i].Bounds.Height * youDiedHeightFromScreenHeight), 0, 0, captureRectangle.Size);
-                captureBitmap.Save($"screen{i}.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+                captureBitmap.Save($"screen{i}.jpg", System.Drawing.Imaging.ImageFormat.Png);
                 imagePaths[i] = $"screen{i}.jpg";
             }
 
