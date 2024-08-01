@@ -1,10 +1,5 @@
-﻿using System;
-using System.Drawing.Imaging;
-using System.Drawing;
-using System.IO;
+﻿using System.Drawing.Imaging;
 using System.Text.Json;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using Tesseract;
 using Emgu.CV;
 using Emgu.CV.CvEnum;
@@ -27,7 +22,9 @@ namespace EldenRingDeathCounter
         {
             if (!File.Exists(_saveFileName))
             {
-                File.Create(_saveFileName);
+                var file = File.Create(_saveFileName);
+                file.Dispose();
+                Thread.Sleep(200);
             }
             using (var r = new StreamReader(_saveFileName))
             {
@@ -36,9 +33,10 @@ namespace EldenRingDeathCounter
                 {
                     var saveData = JsonSerializer.Deserialize<SaveData>(json);
                     _saveData = saveData;
-                } catch(Exception ex)
+                } 
+                catch(Exception ex)
                 {
-                    MessageBox.Show($"Reading save file failed with error:{ex.Message}.\nReverting save data to default.");
+                    MessageBox.Show($"Reading save file failed. Reverting save data to default.");
                     _saveData = new SaveData()
                     {
                         DeathCount = 0,
@@ -47,6 +45,7 @@ namespace EldenRingDeathCounter
                 }
             }
             label1.Text = _saveData.DeathCount.ToString();
+            SaveDeaths();
         }
 
         private void addDeathButton_Click(object sender, EventArgs e)
@@ -110,9 +109,9 @@ namespace EldenRingDeathCounter
                 CvInvoke.CvtColor(img, img, ColorConversion.Rgb2Hsv);
 
                 // Create mask from red color and apply (should pick out only the "you died" text to the mask)
-                var mask = Mat.Zeros(img.Rows, img.Cols, img.Depth, img.NumberOfChannels);
+                using var mask = Mat.Zeros(img.Rows, img.Cols, img.Depth, img.NumberOfChannels);
                 CvInvoke.InRange(img, new ScalarArray(new MCvScalar(115, 70, 70)), new ScalarArray(new MCvScalar(130, 255, 255)), mask);
-                var output = Mat.Zeros(img.Rows, img.Cols, img.Depth, img.NumberOfChannels);
+                using var output = Mat.Zeros(img.Rows, img.Cols, img.Depth, img.NumberOfChannels);
                 CvInvoke.BitwiseAnd(img, img, output, mask);
                 img = output;
 
@@ -126,11 +125,12 @@ namespace EldenRingDeathCounter
                 CvInvoke.PyrMeanShiftFiltering(img, img, 5, 10, 1, new MCvTermCriteria(5, 1));
 
                 // Canny edge detection
-                var destImage = Mat.Zeros(img.Rows, img.Cols, img.Depth, img.NumberOfChannels);
+                using var destImage = Mat.Zeros(img.Rows, img.Cols, img.Depth, img.NumberOfChannels);
                 CvInvoke.Canny(img, destImage, 50, 50);
                 //img.Save("test_processed_pre_edge.jpg");
                 destImage.Save($"processed{i}.jpg");
                 processedImagePaths[i] = $"processed{i}.jpg";
+                img.Dispose();
             }
 
             return processedImagePaths;
@@ -147,17 +147,16 @@ namespace EldenRingDeathCounter
             for (var i = 0; i < Screen.AllScreens.Length; i++)
             {
                 // TODO Capture whole screen to save the moment of death
-                using (var captureBitmap = new Bitmap(Convert.ToInt32(Screen.AllScreens[i].Bounds.Width * screenshotWidthPercentage),
-                           Convert.ToInt32(Screen.AllScreens[i].Bounds.Height * screenshotHeightPercentage), PixelFormat.Format32bppArgb))
-                {
-                    var captureRectangle = Screen.AllScreens[i].Bounds;
-                    captureRectangle.Width = Convert.ToInt32(Screen.AllScreens[i].Bounds.Width * screenshotWidthPercentage);
-                    captureRectangle.Height = Convert.ToInt32(Screen.AllScreens[i].Bounds.Height * screenshotHeightPercentage);
-                    var captureGraphics = Graphics.FromImage(captureBitmap);
-                    captureGraphics.CopyFromScreen(captureRectangle.Left + Convert.ToInt32(Screen.AllScreens[i].Bounds.Width * youDiedWidthFromScreenWidth), captureRectangle.Top + Convert.ToInt32(Screen.AllScreens[i].Bounds.Height * youDiedHeightFromScreenHeight), 0, 0, captureRectangle.Size);
-                    captureBitmap.Save($"screen{i}.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
-                    imagePaths[i] = $"screen{i}.jpg";
-                }
+                using var captureBitmap = new Bitmap(
+                    Convert.ToInt32(Screen.AllScreens[i].Bounds.Width * screenshotWidthPercentage),
+                    Convert.ToInt32(Screen.AllScreens[i].Bounds.Height * screenshotHeightPercentage), PixelFormat.Format32bppArgb);
+                var captureRectangle = Screen.AllScreens[i].Bounds;
+                captureRectangle.Width = Convert.ToInt32(Screen.AllScreens[i].Bounds.Width * screenshotWidthPercentage);
+                captureRectangle.Height = Convert.ToInt32(Screen.AllScreens[i].Bounds.Height * screenshotHeightPercentage);
+                using var captureGraphics = Graphics.FromImage(captureBitmap);
+                captureGraphics.CopyFromScreen(captureRectangle.Left + Convert.ToInt32(Screen.AllScreens[i].Bounds.Width * youDiedWidthFromScreenWidth), captureRectangle.Top + Convert.ToInt32(Screen.AllScreens[i].Bounds.Height * youDiedHeightFromScreenHeight), 0, 0, captureRectangle.Size);
+                captureBitmap.Save($"screen{i}.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+                imagePaths[i] = $"screen{i}.jpg";
             }
 
             return imagePaths;
@@ -169,19 +168,22 @@ namespace EldenRingDeathCounter
             {
                 using (var img = Pix.LoadFromFile(path))
                 {
-                    var result = engine.Process(img);
-                    var text = result.GetText();
-                    Console.WriteLine(text);
-                    readTextLabel.Text = text;
-                    Console.WriteLine("Mean confidence: {0}", result.GetMeanConfidence());
-                    if (text.ToLower().Contains("died") || text.ToLower().Contains("you"))
+                    using (var result = engine.Process(img))
                     {
-                        // Add death and wait 10s to avoid duplicates
-                        AddDeath();
-                        await Task.Delay(10000);
+                        var text = result.GetText();
+                        Console.WriteLine(text);
+                        readTextLabel.Text = text;
+                        Console.WriteLine("Mean confidence: {0}", result.GetMeanConfidence());
+                        if (text.ToLower().Contains("died") || text.ToLower().Contains("you"))
+                        {
+                            // Add death and wait 10s to avoid duplicates
+                            AddDeath();
+                            await Task.Delay(10000);
+                        }
                     }
+                    
                 }
-                
+
             }
         }
 
@@ -212,7 +214,7 @@ namespace EldenRingDeathCounter
 
         private async void button3_Click(object sender, EventArgs e)
         {
-            await ReadYouDied("test_processed.jpg");
+            await ReadYouDied("processed0.jpg");
         }
 
         private void label2_Click(object sender, EventArgs e)
