@@ -28,188 +28,199 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.addDeathButton = new System.Windows.Forms.Button();
-            this.removeDeathButton = new System.Windows.Forms.Button();
-            this.startDeathCounterButton = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.readTextLabel = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.SuspendLayout();
+            label1 = new Label();
+            panel1 = new Panel();
+            addDeathButton = new Button();
+            removeDeathButton = new Button();
+            startDeathCounterButton = new Button();
+            button1 = new Button();
+            button2 = new Button();
+            button3 = new Button();
+            readTextLabel = new Label();
+            panel2 = new Panel();
+            label2 = new Label();
+            label3 = new Label();
+            panel1.SuspendLayout();
+            panel2.SuspendLayout();
+            SuspendLayout();
             // 
             // label1
             // 
-            this.label1.Font = new System.Drawing.Font("Garamond", 72F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.Maroon;
-            this.label1.Location = new System.Drawing.Point(0, 0);
-            this.label1.Margin = new System.Windows.Forms.Padding(0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(200, 124);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "label1";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label1.Click += new System.EventHandler(this.label1_Click);
+            label1.Font = new Font("Garamond", 72F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.Maroon;
+            label1.Location = new Point(3, 0);
+            label1.Margin = new Padding(0);
+            label1.Name = "label1";
+            label1.Size = new Size(229, 143);
+            label1.TabIndex = 0;
+            label1.Text = "label1";
+            label1.TextAlign = ContentAlignment.MiddleCenter;
+            label1.Click += label1_Click;
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(17, 63);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(200, 124);
-            this.panel1.TabIndex = 1;
+            panel1.BackColor = SystemColors.ActiveCaptionText;
+            panel1.Controls.Add(label1);
+            panel1.Location = new Point(20, 73);
+            panel1.Margin = new Padding(4, 3, 4, 3);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(233, 143);
+            panel1.TabIndex = 1;
             // 
             // addDeathButton
             // 
-            this.addDeathButton.BackColor = System.Drawing.Color.DimGray;
-            this.addDeathButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.addDeathButton.Font = new System.Drawing.Font("Garamond", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.addDeathButton.ForeColor = System.Drawing.Color.LightGray;
-            this.addDeathButton.Location = new System.Drawing.Point(-1, 3);
-            this.addDeathButton.Name = "addDeathButton";
-            this.addDeathButton.Size = new System.Drawing.Size(92, 75);
-            this.addDeathButton.TabIndex = 2;
-            this.addDeathButton.Text = "+";
-            this.addDeathButton.UseCompatibleTextRendering = true;
-            this.addDeathButton.UseVisualStyleBackColor = false;
-            this.addDeathButton.Click += new System.EventHandler(this.addDeathButton_Click);
+            addDeathButton.BackColor = Color.DimGray;
+            addDeathButton.BackgroundImageLayout = ImageLayout.Center;
+            addDeathButton.Font = new Font("Garamond", 48F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            addDeathButton.ForeColor = Color.LightGray;
+            addDeathButton.Location = new Point(-1, 3);
+            addDeathButton.Margin = new Padding(4, 3, 4, 3);
+            addDeathButton.Name = "addDeathButton";
+            addDeathButton.Size = new Size(107, 87);
+            addDeathButton.TabIndex = 2;
+            addDeathButton.Text = "+";
+            addDeathButton.UseCompatibleTextRendering = true;
+            addDeathButton.UseVisualStyleBackColor = false;
+            addDeathButton.Click += addDeathButton_Click;
             // 
             // removeDeathButton
             // 
-            this.removeDeathButton.BackColor = System.Drawing.Color.DimGray;
-            this.removeDeathButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.removeDeathButton.Font = new System.Drawing.Font("Garamond", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.removeDeathButton.ForeColor = System.Drawing.Color.LightGray;
-            this.removeDeathButton.Location = new System.Drawing.Point(106, 3);
-            this.removeDeathButton.Name = "removeDeathButton";
-            this.removeDeathButton.Size = new System.Drawing.Size(93, 75);
-            this.removeDeathButton.TabIndex = 3;
-            this.removeDeathButton.Text = "–";
-            this.removeDeathButton.UseCompatibleTextRendering = true;
-            this.removeDeathButton.UseVisualStyleBackColor = false;
-            this.removeDeathButton.Click += new System.EventHandler(this.removeDeathButton_Click);
+            removeDeathButton.BackColor = Color.DimGray;
+            removeDeathButton.BackgroundImageLayout = ImageLayout.None;
+            removeDeathButton.Font = new Font("Garamond", 48F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            removeDeathButton.ForeColor = Color.LightGray;
+            removeDeathButton.Location = new Point(124, 3);
+            removeDeathButton.Margin = new Padding(4, 3, 4, 3);
+            removeDeathButton.Name = "removeDeathButton";
+            removeDeathButton.Size = new Size(108, 87);
+            removeDeathButton.TabIndex = 3;
+            removeDeathButton.Text = "–";
+            removeDeathButton.UseCompatibleTextRendering = true;
+            removeDeathButton.UseVisualStyleBackColor = false;
+            removeDeathButton.Click += removeDeathButton_Click;
             // 
             // startDeathCounterButton
             // 
-            this.startDeathCounterButton.BackColor = System.Drawing.Color.DimGray;
-            this.startDeathCounterButton.Font = new System.Drawing.Font("Garamond", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.startDeathCounterButton.ForeColor = System.Drawing.Color.MediumSeaGreen;
-            this.startDeathCounterButton.Location = new System.Drawing.Point(17, 277);
-            this.startDeathCounterButton.Name = "startDeathCounterButton";
-            this.startDeathCounterButton.Size = new System.Drawing.Size(199, 76);
-            this.startDeathCounterButton.TabIndex = 4;
-            this.startDeathCounterButton.Text = "START";
-            this.startDeathCounterButton.UseCompatibleTextRendering = true;
-            this.startDeathCounterButton.UseVisualStyleBackColor = false;
-            this.startDeathCounterButton.Click += new System.EventHandler(this.startDeathCounterButton_Click_1);
+            startDeathCounterButton.BackColor = Color.DimGray;
+            startDeathCounterButton.Font = new Font("Garamond", 36F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            startDeathCounterButton.ForeColor = Color.MediumSeaGreen;
+            startDeathCounterButton.Location = new Point(20, 320);
+            startDeathCounterButton.Margin = new Padding(4, 3, 4, 3);
+            startDeathCounterButton.Name = "startDeathCounterButton";
+            startDeathCounterButton.Size = new Size(232, 88);
+            startDeathCounterButton.TabIndex = 4;
+            startDeathCounterButton.Text = "START";
+            startDeathCounterButton.UseCompatibleTextRendering = true;
+            startDeathCounterButton.UseVisualStyleBackColor = false;
+            startDeathCounterButton.Click += startDeathCounterButton_Click_1;
             // 
             // button1
             // 
-            this.button1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.button1.Location = new System.Drawing.Point(17, 359);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(115, 23);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "Take screenshot";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            button1.ForeColor = SystemColors.ActiveCaptionText;
+            button1.Location = new Point(20, 414);
+            button1.Margin = new Padding(4, 3, 4, 3);
+            button1.Name = "button1";
+            button1.Size = new Size(134, 27);
+            button1.TabIndex = 5;
+            button1.Text = "Take screenshot";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // button2
             // 
-            this.button2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.button2.Location = new System.Drawing.Point(34, 415);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 6;
-            this.button2.Text = "Preprocess";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            button2.ForeColor = SystemColors.ActiveCaptionText;
+            button2.Location = new Point(40, 479);
+            button2.Margin = new Padding(4, 3, 4, 3);
+            button2.Name = "button2";
+            button2.Size = new Size(88, 27);
+            button2.TabIndex = 6;
+            button2.Text = "Preprocess";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // button3
             // 
-            this.button3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.button3.Location = new System.Drawing.Point(35, 388);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 7;
-            this.button3.Text = "Read text";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            button3.ForeColor = SystemColors.ActiveCaptionText;
+            button3.Location = new Point(41, 448);
+            button3.Margin = new Padding(4, 3, 4, 3);
+            button3.Name = "button3";
+            button3.Size = new Size(88, 27);
+            button3.TabIndex = 7;
+            button3.Text = "Read text";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // readTextLabel
             // 
-            this.readTextLabel.AutoSize = true;
-            this.readTextLabel.Location = new System.Drawing.Point(163, 398);
-            this.readTextLabel.Name = "readTextLabel";
-            this.readTextLabel.Size = new System.Drawing.Size(35, 13);
-            this.readTextLabel.TabIndex = 8;
-            this.readTextLabel.Text = "label2";
-            this.readTextLabel.Click += new System.EventHandler(this.label2_Click);
+            readTextLabel.AutoSize = true;
+            readTextLabel.Location = new Point(190, 459);
+            readTextLabel.Margin = new Padding(4, 0, 4, 0);
+            readTextLabel.Name = "readTextLabel";
+            readTextLabel.Size = new Size(38, 15);
+            readTextLabel.TabIndex = 8;
+            readTextLabel.Text = "label2";
+            readTextLabel.Click += label2_Click;
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.removeDeathButton);
-            this.panel2.Controls.Add(this.addDeathButton);
-            this.panel2.Location = new System.Drawing.Point(18, 193);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(199, 78);
-            this.panel2.TabIndex = 9;
+            panel2.Controls.Add(removeDeathButton);
+            panel2.Controls.Add(addDeathButton);
+            panel2.Location = new Point(21, 223);
+            panel2.Margin = new Padding(4, 3, 4, 3);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(232, 90);
+            panel2.TabIndex = 9;
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Garamond", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(20, 9);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(214, 54);
-            this.label2.TabIndex = 10;
-            this.label2.Text = "DEATHS";
-            this.label2.Click += new System.EventHandler(this.label2_Click_1);
+            label2.AutoSize = true;
+            label2.Font = new Font("Garamond", 36F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label2.Location = new Point(23, 10);
+            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(214, 54);
+            label2.TabIndex = 10;
+            label2.Text = "DEATHS";
+            label2.Click += label2_Click_1;
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Garamond", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.Maroon;
-            this.label3.Location = new System.Drawing.Point(12, 9);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(214, 54);
-            this.label3.TabIndex = 10;
-            this.label3.Text = "DEATHS";
-            this.label3.Click += new System.EventHandler(this.label2_Click_1);
+            label3.AutoSize = true;
+            label3.Font = new Font("Garamond", 36F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label3.ForeColor = Color.Maroon;
+            label3.Location = new Point(31, 9);
+            label3.Margin = new Padding(4, 0, 4, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(214, 54);
+            label3.TabIndex = 10;
+            label3.Text = "DEATHS";
+            label3.Click += label2_Click_1;
             // 
             // DeathCounter
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(235, 450);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.readTextLabel);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.startDeathCounterButton);
-            this.Controls.Add(this.panel1);
-            this.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "DeathCounter";
-            this.Text = "Elden Ring Death Counter";
-            this.Load += new System.EventHandler(this.DeathCounter_Load);
-            this.panel1.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(64, 64, 64);
+            ClientSize = new Size(274, 519);
+            Controls.Add(label3);
+            Controls.Add(label2);
+            Controls.Add(panel2);
+            Controls.Add(readTextLabel);
+            Controls.Add(button3);
+            Controls.Add(button2);
+            Controls.Add(button1);
+            Controls.Add(startDeathCounterButton);
+            Controls.Add(panel1);
+            ForeColor = SystemColors.ControlLightLight;
+            FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            Margin = new Padding(4, 3, 4, 3);
+            Name = "DeathCounter";
+            Text = "Elden Ring Death Counter";
+            Load += DeathCounter_Load;
+            panel1.ResumeLayout(false);
+            panel2.ResumeLayout(false);
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

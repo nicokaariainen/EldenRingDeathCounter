@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace EldenRingDeathCounter
+﻿namespace EldenRingDeathCounter
 {
     public class SaveData
     {
