@@ -103,7 +103,7 @@ namespace EldenRingDeathCounter
             var processedImagePaths = new string[paths.Length];
             for (int i = 0; i < paths.Length; i++)
             {
-                var img = CvInvoke.Imread(paths[i], ImreadModes.AnyColor);
+                using var img = CvInvoke.Imread(paths[i], ImreadModes.AnyColor);
 
                 // Convert to HSV from RGB for detecting the color red
                 CvInvoke.CvtColor(img, img, ColorConversion.Rgb2Hsv);
@@ -111,22 +111,21 @@ namespace EldenRingDeathCounter
                 // Create mask from red color and apply (should pick out only the "you died" text to the mask)
                 using var mask = Mat.Zeros(img.Rows, img.Cols, img.Depth, img.NumberOfChannels);
                 CvInvoke.InRange(img, new ScalarArray(new MCvScalar(115, 70, 70)), new ScalarArray(new MCvScalar(130, 255, 255)), mask);
-                using var output = Mat.Zeros(img.Rows, img.Cols, img.Depth, img.NumberOfChannels);
-                CvInvoke.BitwiseAnd(img, img, output, mask);
-                img = output;
+                using var masked = Mat.Zeros(img.Rows, img.Cols, img.Depth, img.NumberOfChannels);
+                CvInvoke.BitwiseAnd(img, img, masked, mask);
 
                 // Convert back to RGB
-                CvInvoke.CvtColor(img, img, ColorConversion.Hsv2Rgb);
+                CvInvoke.CvtColor(masked, masked, ColorConversion.Hsv2Rgb);
 
                 // Raise contrast for easier edge detection and better separate colors
-                CvInvoke.AddWeighted(img, 3, img, 0, 0, img);
+                CvInvoke.AddWeighted(masked, 3, masked, 0, 0, img);
 
                 // Posterization filter for reduced noise
-                CvInvoke.PyrMeanShiftFiltering(img, img, 5, 10, 1, new MCvTermCriteria(5, 1));
+                CvInvoke.PyrMeanShiftFiltering(masked, masked, 5, 10, 1, new MCvTermCriteria(5, 1));
 
                 // Canny edge detection
                 using var destImage = Mat.Zeros(img.Rows, img.Cols, img.Depth, img.NumberOfChannels);
-                CvInvoke.Canny(img, destImage, 50, 50);
+                CvInvoke.Canny(masked, destImage, 50, 50);
 
                 // Commented out contour drawing but don't want to get rid of it
 
@@ -147,7 +146,6 @@ namespace EldenRingDeathCounter
 
                 destImage.Save($"processed{i}.jpg");
                 processedImagePaths[i] = $"processed{i}.jpg";
-                img.Dispose();
             }
 
             return processedImagePaths;

@@ -38,7 +38,6 @@
             button3 = new Button();
             readTextLabel = new Label();
             panel2 = new Panel();
-            label2 = new Label();
             label3 = new Label();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
@@ -171,29 +170,18 @@
             panel2.Size = new Size(232, 90);
             panel2.TabIndex = 9;
             // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Garamond", 36F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.Location = new Point(23, 10);
-            label2.Margin = new Padding(4, 0, 4, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(214, 54);
-            label2.TabIndex = 10;
-            label2.Text = "DEATHS";
-            label2.Click += label2_Click_1;
-            // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("Garamond", 36F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label3.Font = new Font("Garamond", 42F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.Maroon;
-            label3.Location = new Point(31, 9);
+            label3.Location = new Point(15, 9);
             label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
-            label3.Size = new Size(214, 54);
+            label3.Size = new Size(247, 73);
             label3.TabIndex = 10;
             label3.Text = "DEATHS";
+            label3.UseCompatibleTextRendering = true;
             label3.Click += label2_Click_1;
             // 
             // DeathCounter
@@ -202,8 +190,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(64, 64, 64);
             ClientSize = new Size(274, 519);
-            Controls.Add(label3);
-            Controls.Add(label2);
             Controls.Add(panel2);
             Controls.Add(readTextLabel);
             Controls.Add(button3);
@@ -211,6 +197,7 @@
             Controls.Add(button1);
             Controls.Add(startDeathCounterButton);
             Controls.Add(panel1);
+            Controls.Add(label3);
             ForeColor = SystemColors.ControlLightLight;
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Margin = new Padding(4, 3, 4, 3);
@@ -235,7 +222,6 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label readTextLabel;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
     }
 }
