@@ -99,10 +99,10 @@ namespace EldenRingDeathCounter
             }
         }
 
-        private static string[] PreProcessImages(string[] paths)
+        private static string[] PreProcessImages(List<string> paths)
         {
-            var processedImagePaths = new string[paths.Length];
-            for (int i = 0; i < paths.Length; i++)
+            var processedImagePaths = new string[paths.Count];
+            for (int i = 0; i < paths.Count; i++)
             {
                 using var img = CvInvoke.Imread(paths[i], ImreadModes.AnyColor);
 
@@ -152,14 +152,14 @@ namespace EldenRingDeathCounter
             return processedImagePaths;
         }
 
-        private string[] CaptureScreens()
+        private List<string> CaptureScreens()
         {
             const float screenshotWidthPercentage = 0.25f;
             const float screenshotHeightPercentage = 0.12f;
             const float youDiedWidthFromScreenWidth = 0.38f;
             const float youDiedHeightFromScreenHeight = 0.45f;
 
-            var imagePaths = new string[Screen.AllScreens.Length];
+            var imagePaths = new List<string>();
             for (var i = 0; i < Screen.AllScreens.Length; i++)
             {
                 // Only capture the screen where the game is running
@@ -197,7 +197,7 @@ namespace EldenRingDeathCounter
                     captureRectangle.Size);
 
                 captureBitmap.Save($"screen{i}.png", System.Drawing.Imaging.ImageFormat.Png);
-                imagePaths[i] = $"screen{i}.png";
+                imagePaths.Add($"screen{i}.png");
             }
 
             return imagePaths;
@@ -255,7 +255,7 @@ namespace EldenRingDeathCounter
 
         private void button2_Click(object sender, EventArgs e)
         {
-            PreProcessImages(new []{"screen0.png", "screen1.png"});
+            PreProcessImages(["screen0.png", "screen1.png"]);
         }
 
         private async void button3_Click(object sender, EventArgs e)
