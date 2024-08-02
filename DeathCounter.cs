@@ -12,6 +12,7 @@ namespace EldenRingDeathCounter
     {
         private bool _deathCountingEnabled = false;
         private bool _isDebugMode = false;
+        private int? _gameScreenIndex = null;
         private SaveData _saveData;
         private readonly string _saveFileName = "deaths.json";
 
@@ -151,7 +152,7 @@ namespace EldenRingDeathCounter
             return processedImagePaths;
         }
 
-        private static string[] CaptureScreens()
+        private string[] CaptureScreens()
         {
             const float screenshotWidthPercentage = 0.25f;
             const float screenshotHeightPercentage = 0.12f;
@@ -161,21 +162,40 @@ namespace EldenRingDeathCounter
             var imagePaths = new string[Screen.AllScreens.Length];
             for (var i = 0; i < Screen.AllScreens.Length; i++)
             {
+                // Only capture the screen where the game is running
+                if (_gameScreenIndex.HasValue && i != _gameScreenIndex.Value) continue;
+
                 using var captureBitmapWholeScreen = new Bitmap(
                     Screen.AllScreens[i].Bounds.Width,
-                    Screen.AllScreens[i].Bounds.Height, PixelFormat.Format32bppArgb);
+                    Screen.AllScreens[i].Bounds.Height, 
+                    PixelFormat.Format32bppArgb);
+
                 using var captureGraphicsWholeScreen = Graphics.FromImage(captureBitmapWholeScreen);
-                captureGraphicsWholeScreen.CopyFromScreen(Screen.AllScreens[i].Bounds.X, Screen.AllScreens[i].Bounds.Y, 0, 0, Screen.AllScreens[i].Bounds.Size);
+                captureGraphicsWholeScreen.CopyFromScreen(
+                    Screen.AllScreens[i].Bounds.X, 
+                    Screen.AllScreens[i].Bounds.Y, 
+                    0, 
+                    0, 
+                    Screen.AllScreens[i].Bounds.Size);
                 captureBitmapWholeScreen.Save($"screenWhole{i}.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
 
                 using var captureBitmap = new Bitmap(
                     Convert.ToInt32(Screen.AllScreens[i].Bounds.Width * screenshotWidthPercentage),
-                    Convert.ToInt32(Screen.AllScreens[i].Bounds.Height * screenshotHeightPercentage), PixelFormat.Format32bppArgb);
+                    Convert.ToInt32(Screen.AllScreens[i].Bounds.Height * screenshotHeightPercentage), 
+                    PixelFormat.Format32bppArgb);
+
                 var captureRectangle = Screen.AllScreens[i].Bounds;
                 captureRectangle.Width = Convert.ToInt32(Screen.AllScreens[i].Bounds.Width * screenshotWidthPercentage);
                 captureRectangle.Height = Convert.ToInt32(Screen.AllScreens[i].Bounds.Height * screenshotHeightPercentage);
+
                 using var captureGraphics = Graphics.FromImage(captureBitmap);
-                captureGraphics.CopyFromScreen(captureRectangle.Left + Convert.ToInt32(Screen.AllScreens[i].Bounds.Width * youDiedWidthFromScreenWidth), captureRectangle.Top + Convert.ToInt32(Screen.AllScreens[i].Bounds.Height * youDiedHeightFromScreenHeight), 0, 0, captureRectangle.Size);
+                captureGraphics.CopyFromScreen(
+                    captureRectangle.Left + Convert.ToInt32(Screen.AllScreens[i].Bounds.Width * youDiedWidthFromScreenWidth),
+                    captureRectangle.Top + Convert.ToInt32(Screen.AllScreens[i].Bounds.Height * youDiedHeightFromScreenHeight),
+                    0,
+                    0,
+                    captureRectangle.Size);
+
                 captureBitmap.Save($"screen{i}.png", System.Drawing.Imaging.ImageFormat.Png);
                 imagePaths[i] = $"screen{i}.png";
             }
@@ -197,6 +217,10 @@ namespace EldenRingDeathCounter
                     // Add death and wait 10s to avoid duplicates
                     AddDeath();
                     SaveDeaths(i);
+
+                    // Set the game screen index if it hasn't been set yet
+                    if (!_gameScreenIndex.HasValue) 
+                        _gameScreenIndex = i;
                     await Task.Delay(10000);
                 }
             }
