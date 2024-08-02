@@ -20,4 +20,10 @@ Deaths are saved every time the number is updated, so don't worry about closing 
 
 Screenshots of the moments of death are saved inside the folder 'DeathImages' with naming format 'death_<DEATH_NUMBER>_<DEATH_DATE>.jpg'.
 
+### Changing the amount of deaths manually
+
+You can manually increment the death count with the + and - buttons in the app.
+
+You can also directly modify the save file, which is called 'deaths.json' inside the folder with the exe. Just change the 'DeathCount' value there and start the app.
+
 ## NOTE! This currently only works on 16:9 screens with the game on full screen (the capture location is based on percentages of screen height and width).
