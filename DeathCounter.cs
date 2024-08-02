@@ -165,20 +165,6 @@ namespace EldenRingDeathCounter
                 // Only capture the screen where the game is running
                 if (_gameScreenIndex.HasValue && i != _gameScreenIndex.Value) continue;
 
-                using var captureBitmapWholeScreen = new Bitmap(
-                    Screen.AllScreens[i].Bounds.Width,
-                    Screen.AllScreens[i].Bounds.Height, 
-                    PixelFormat.Format32bppArgb);
-
-                using var captureGraphicsWholeScreen = Graphics.FromImage(captureBitmapWholeScreen);
-                captureGraphicsWholeScreen.CopyFromScreen(
-                    Screen.AllScreens[i].Bounds.X, 
-                    Screen.AllScreens[i].Bounds.Y, 
-                    0, 
-                    0, 
-                    Screen.AllScreens[i].Bounds.Size);
-                captureBitmapWholeScreen.Save($"screenWhole{i}.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
-
                 using var captureBitmap = new Bitmap(
                     Convert.ToInt32(Screen.AllScreens[i].Bounds.Width * screenshotWidthPercentage),
                     Convert.ToInt32(Screen.AllScreens[i].Bounds.Height * screenshotHeightPercentage), 
@@ -240,12 +226,24 @@ namespace EldenRingDeathCounter
 
             if (!screenIndex.HasValue) return;
             // Save screenshot of the screen where the death was detected
-            using var screenshot = new Bitmap($"screenWhole{screenIndex}.jpg");
+            using var captureBitmapWholeScreen = new Bitmap(
+                Screen.AllScreens[screenIndex.Value].Bounds.Width,
+                Screen.AllScreens[screenIndex.Value].Bounds.Height,
+                PixelFormat.Format32bppArgb);
+
+            using var captureGraphicsWholeScreen = Graphics.FromImage(captureBitmapWholeScreen);
+            captureGraphicsWholeScreen.CopyFromScreen(
+                Screen.AllScreens[screenIndex.Value].Bounds.X,
+                Screen.AllScreens[screenIndex.Value].Bounds.Y,
+                0,
+                0,
+                Screen.AllScreens[screenIndex.Value].Bounds.Size);
+
             if (!Directory.Exists("DeathImages"))
             {
                 Directory.CreateDirectory("DeathImages");
             }
-            screenshot.Save($"DeathImages\\death_{_saveData.DeathCount}_{_saveData.LastDeathDate:yyyy-MM-ddTHH.mm}.jpg", ImageFormat.Jpeg);
+            captureBitmapWholeScreen.Save($"DeathImages\\death_{_saveData.DeathCount}_{_saveData.LastDeathDate:yyyy-MM-ddTHH.mm}.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
         }
 
         private void button1_Click(object sender, EventArgs e)
