@@ -49,6 +49,7 @@ namespace EldenRingDeathCounter
             }
             label1.Text = _saveData.DeathCount.ToString();
             SaveDeaths();
+            CountDeaths();
         }
 
         private void addDeathButton_Click(object sender, EventArgs e)
@@ -83,14 +84,19 @@ namespace EldenRingDeathCounter
                 _deathCountingEnabled = true;
                 startDeathCounterButton.Text = "STOP";
                 startDeathCounterButton.ForeColor = Color.Red;
-                CountDeaths();
             }
         }
 
         private async void CountDeaths()
         {
-            while (_deathCountingEnabled)
+            while (true)
             {
+                if (!_deathCountingEnabled)
+                {
+                    await Task.Delay(500);
+                    continue;
+                }
+
                 var imagePaths = CaptureScreens();
                 var processedImagePaths = PreProcessImages(imagePaths);
                 await ReadYouDied(processedImagePaths);
