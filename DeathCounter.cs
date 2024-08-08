@@ -202,7 +202,7 @@ namespace EldenRingDeathCounter
                 {
                     // Add death and wait 10s to avoid duplicates
                     AddDeath();
-                    SaveDeaths(i);
+                    SaveDeaths(_gameScreenIndex ?? i);
 
                     // Set the game screen index if it hasn't been set yet
                     if (!_gameScreenIndex.HasValue) 
